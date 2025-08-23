@@ -1,0 +1,70 @@
+# Node.js dependencies
+/node_modules
+**/node_modules
+/package-lock.json
+/yarn.lock
+/pnpm-lock.yaml
+
+# Build output
+/dist
+**/dist
+/build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Runtime data
+pids
+*.pid
+*.pid.lock
+*.seed
+
+# Diagnostics
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# IDEs
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Tests / coverage
+/coverage
+/.nyc_output
+/test
+
+# Temp files
+.temp
+.tmp
+
+# Docker
+docker-compose.override.yml
+*.env.docker
+
+# Databases
+*.sqlite
+*.db
+
+# Misc
+*.bak
+*.swp
