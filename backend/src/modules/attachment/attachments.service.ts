@@ -4,15 +4,20 @@ import { CreateAttachmentDto } from './dto/attachment.dto';
 
 @Injectable()
 export class AttachmentsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  create(dto: CreateAttachmentDto) {
+  async create(dto: CreateAttachmentDto) {
     return this.prisma.attachment.create({
-      data: dto,
+      data: {
+        commentId: dto.commentId,
+        path: dto.path,
+        mimetype: dto.mimetype,
+        size: dto.size,
+      },
     });
   }
 
-  findByComment(commentId: string) {
+  async findByComment(commentId: string) {
     return this.prisma.attachment.findMany({
       where: { commentId },
     });

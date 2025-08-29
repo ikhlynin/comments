@@ -1,6 +1,6 @@
 export class CreateAttachmentDto {
-  filename: string;
-  url: string;
-  type: 'image' | 'text';
+  path: string;
+  mimetype: 'image' | 'text';
+  size: number;
   commentId: string;
 }

@@ -1,0 +1,25 @@
+.sorting-controls {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem 0;
+  justify-content: flex-start;
+}
+
+.sorting-btn {
+  background: #f3f4f6;
+  color: #2563eb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.4rem 1.2rem;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  outline: none;
+
+  &.active,
+  &:hover {
+    background: #2563eb;
+    color: #fff;
+  }
+}

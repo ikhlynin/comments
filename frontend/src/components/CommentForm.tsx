@@ -1,73 +1,67 @@
-// src/components/CommentForm.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import "../styles/CommentForm.scss";
+import {
+  CommentFormData,
+  CommentFormProps,
+} from "../types/types";
+import validateFile from "../utils/validateFile";
+import prepareCommentData from "../utils/prepereCommentData";
 import { commentService } from "../services/commentServices";
-import { CommentFormData, CommentFormProps } from "../types/types";
+import "../styles/CommentForm.scss";
 
-const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
-  const [file, setFile] = useState<File | null>(null);
-
+const CommentForm: React.FC<CommentFormProps> = ({
+  onSubmit,
+  parentId,
+  quote,
+}) => {
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CommentFormData>();
-  const [fileError, setFileError] = useState<string>("");
+  const [file, setFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState("");
+
+  useEffect(() => {
+    if (quote) setValue("text", `| ${quote}\n`);
+  }, [quote, setValue]);
+
   const submitHandler = async (data: CommentFormData) => {
+    if (file) {
+      const fileErrorMsg = validateFile(file);
+      if (fileErrorMsg) return setFileError(fileErrorMsg);
+    }
     try {
-      await commentService.addComment({ ...data, attachment: file });
-      reset();
+      const commentData = prepareCommentData(data, file, parentId, quote);
+      await commentService.addComment(commentData);
+      //reset();
       setFile(null);
       setFileError("");
       onSubmit?.({ ...data, attachment: file });
-      alert("Comment submitted!");
-    } catch (err) {
+    } catch {
       alert("Error submitting comment");
     }
   };
 
   return (
-    <form className="comment-form" onSubmit={handleSubmit(submitHandler)}>
-      <div className="field">
-        <label>Name *</label>
-        <input {...register("userName", { required: "Name is required" })} />
-        {errors.userName && (
-          <span className="error">{errors.userName.message}</span>
-        )}
-      </div>
-
-      <div className="field">
-        <label>Email *</label>
-        <input
-          {...register("email", {
-            required: "Email is required",
-            pattern: { value: /\S+@\S+\.\S+/, message: "Invalid email" },
-          })}
-        />
-        {errors.email && <span className="error">{errors.email.message}</span>}
-      </div>
-
-      <div className="field">
-        <label>Comment *</label>
-        <textarea
-          {...register("text", { required: "Comment is required" })}
-          rows={4}
-        />
-        {errors.text && <span className="error">{errors.text.message}</span>}
-      </div>
-
-      <div className="field">
-        <label>Attachment</label>
-        <input
-          type="file"
-          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-        />
-        {file && <span className="file-name">{file.name}</span>}
-      </div>
-
-      <button type="submit">Send</button>
+    <form onSubmit={handleSubmit(submitHandler)} className="comment-form">
+      <input placeholder="Name" {...register("userName", { required: true })} />
+      <input placeholder="Email" {...register("email", { required: true })} />
+      <input placeholder="Home Page" {...register("homePage")} />
+      <textarea
+        placeholder="Comment"
+        {...register("text", { required: true })}
+      />
+      <input
+        type="file"
+        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+      />
+      {fileError && <span className="comment-form_error">{fileError}</span>}
+      <button type="submit" className="comment-form_submit">
+        Send
+      </button>
     </form>
   );
 };

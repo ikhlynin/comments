@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Param, Get } from '@nestjs/common';
-import { AttachmentsService } from './attachment.service';
+import { AttachmentsService } from './attachments.service';
 import { CreateAttachmentDto } from './dto/attachment.dto';
 
 @Controller('attachments')

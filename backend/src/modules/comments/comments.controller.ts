@@ -1,23 +1,68 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UploadedFile,
+  UseInterceptors,
+  Query,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/comment.dto';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('comments')
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
-
+  constructor(private commentsService: CommentsService) {}
   @Post()
-  create(@Body() dto: CreateCommentDto) {
-    return this.commentsService.create(dto);
+  @UseInterceptors(
+    FileInterceptor('attachment', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) =>
+          cb(null, `${Date.now()}${extname(file.originalname)}`),
+      }),
+      limits: { fileSize: 100 * 1024 },
+      fileFilter: (req, file, cb) => {
+        if (
+          file.mimetype.startsWith('image/') ||
+          file.mimetype === 'text/plain'
+        )
+          cb(null, true);
+        else cb(null, false);
+      },
+    }),
+  )
+  async create(
+    @Body() body: CreateCommentDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    if (file) {
+      body.attachments = [
+        {
+          path: `/uploads/${file.filename}`,
+          mimetype: file.mimetype,
+          size: file.size,
+        },
+      ];
+    }
+    return this.commentsService.create(body);
   }
 
   @Get()
-  findAll(@Query('page') page: string) {
-    return this.commentsService.findAll(Number(page) || 1);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commentsService.findById(id);
+  async findAll(
+    @Query('sortBy') sortBy?: string,
+    @Query('order') order?: 'asc' | 'desc',
+    @Query('page') page: string = '1',
+    @Query('pageSize') pageSize: string = '25',
+  ) {
+    return this.commentsService.findAll({
+      sortBy,
+      order,
+      page: Number(page),
+      pageSize: Number(pageSize),
+    });
   }
 }

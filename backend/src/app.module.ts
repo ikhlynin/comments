@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CommentsModule } from './modules/comments/comments.module';
-import { FilesModule } from './modules/files/files.module';
-import { CaptchaModule } from './modules/captcha/captcha.module';
-import { UsersModule } from './modules/user/user.module';
-import { AttachmentModule } from './modules/attachment/attachment.module';
+import { AttachmentModule } from './modules/attachment/attachments.module';
 
 @Module({
   imports: [
@@ -13,9 +10,6 @@ import { AttachmentModule } from './modules/attachment/attachment.module';
       envFilePath: '../.env',
     }),
     CommentsModule,
-    FilesModule,
-    CaptchaModule,
-    UsersModule,
     AttachmentModule,
   ],
 })

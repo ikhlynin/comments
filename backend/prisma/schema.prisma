@@ -7,32 +7,25 @@ datasource db {
   url      = env("DB_URL")
 }
 
-model User {
-  id        String       @id @default(uuid())
-  username  String
-  email     String       @unique
-  homepage  String?  
-  comments  Comment[]
-}
-
 model Comment {
-  id         String    @id @default(uuid())
-  text       String
-  captcha    String
-  createdAt  DateTime  @default(now())
-  parentId   String?
-  userId     String
-  user       User      @relation(fields: [userId], references: [id])
-  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
-  replies    Comment[] @relation("CommentReplies")
+  id        String       @id @default(cuid())
+  userName  String
+  email     String
+  homePage  String?
+  text      String
+  quote     String?
+  parentId  String?
+  parent    Comment?     @relation("Replies", fields: [parentId], references: [id])
+  replies   Comment[]    @relation("Replies")
   attachments Attachment[]
+  createdAt DateTime     @default(now())
 }
 
 model Attachment {
-  id        String      @id @default(uuid())
-  filename  String
-  type      String
-  url       String
+  id        String   @id @default(cuid())
+  comment   Comment  @relation(fields: [commentId], references: [id])
   commentId String
-  comment   Comment     @relation(fields: [commentId], references: [id])
+  path      String
+  mimetype  String
+  size      Int
 }

@@ -1,39 +1,106 @@
 .comment {
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.07);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 0.5rem;
+  transition: box-shadow 0.2s;
+  position: relative;
 
-  &_header {
+  &__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
   }
 
-  &_user {
-    font-weight: bold;
+  &__user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
-  &_email {
-    color: #6b7280;
-  }
-
-  &_home {
-    margin-left: 0.5rem;
+  &__username {
+    font-weight: 600;
     color: #2563eb;
-    text-decoration: underline;
+    text-decoration: none;
   }
 
-  &_date {
-    font-size: 0.875rem;
+  &__email {
+    color: #6b7280;
+    font-size: 0.95em;
+  }
+
+  &__date {
     color: #9ca3af;
+    font-size: 0.9em;
   }
 
-  &_text {
-    color: #1f2937;
+  &__quote {
+    background: #f3f4f6;
+    border-left: 4px solid #2563eb;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-style: italic;
+    font-size: 0.98em;
     white-space: pre-wrap;
+  }
+
+  &__text {
+    margin-bottom: 0.5rem;
+    color: #22223b;
+    font-size: 1.08em;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 0.375rem;
+      padding: 0.35rem 1rem;
+      font-size: 0.68em;
+      cursor: pointer;
+      transition: background 0.2s;
+      &:hover {
+        background: #1d4ed8;
+      }
+    }
+  }
+
+  &__attachment {
+    margin-top: 0.5rem;
+
+    &__img {
+      max-width: 320px;
+      max-height: 240px;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      border: 1px solid #e5e7eb;
+      object-fit: contain;
+      display: block;
+    }
+
+    &__file {
+      display: inline-block;
+      padding: 0.4em 1em;
+      background: #f3f4f6;
+      color: #2563eb;
+      border-radius: 0.375rem;
+      text-decoration: none;
+      font-weight: 500;
+      border: 1px solid #e5e7eb;
+      transition: background 0.2s;
+      &:hover {
+        background: #e0e7ff;
+      }
+    }
   }
 }

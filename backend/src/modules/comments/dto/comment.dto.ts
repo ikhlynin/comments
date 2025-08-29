@@ -1,6 +1,13 @@
 export class CreateCommentDto {
-  userId: string;
+  userName: string;
+  email: string;
+  homePage?: string;
   text: string;
-  captcha: string;
   parentId?: string;
+  quote?: string;
+  attachments?: {
+    path: string;
+    mimetype: string;
+    size: number;
+  }[];
 }
