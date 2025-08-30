@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -8,8 +8,14 @@ RUN npm install
 COPY . .
 RUN npm run build
 
+FROM node:20-alpine
+
+WORKDIR /app
+
 RUN npm install -g serve
 
-EXPOSE $PORT
+COPY --from=builder /app/build ./build
 
-CMD ["sh", "-c", "serve -s build -l $PORT"]
+EXPOSE 5000
+
+CMD ["sh", "-c", "serve -s build -l ${PORT:-5000}"]
