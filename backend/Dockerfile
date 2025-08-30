@@ -8,9 +8,10 @@ RUN npm install
 COPY . .
 
 RUN npx prisma generate
+RUN npx prisma migrate deploy
 RUN npx nest build
 RUN npm prune --production
 
-EXPOSE 5000
+EXPOSE $PORT
 
 CMD ["node", "dist/main.js"]
