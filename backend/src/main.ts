@@ -10,6 +10,6 @@ async function bootstrap() {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
-  await app.listen(process.env.BACKEND_PORT ?? 5000);
+  await app.listen(process.env.BACKEND_PORT, '0.0.0.0' );
 }
 bootstrap();
