@@ -12,7 +12,8 @@
     "start:dev": "nest start --watch -r tsconfig-paths/register",
     "prisma-migrate:dev": "dotenv -e ../.env -- npx prisma migrate dev",
     "prisma-db-push:dev": "dotenv -e ../.env -- npx prisma db push",
-    "prisma-migrate-reset": "dotenv -e ../.env -- npx prisma migrate reset"
+    "prisma-migrate-reset": "dotenv -e ../.env -- npx prisma migrate reset",
+    "postinstall": "prisma migrate deploy"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
