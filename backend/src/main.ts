@@ -1,12 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as express from 'express';
-import { join } from 'path';
 
 async function bootstrap() {
   console.log('DB_URL:', process.env.DB_URL);
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
   app.enableCors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true,

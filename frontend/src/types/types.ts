@@ -73,4 +73,6 @@ export const ALLOWED_TAGS = /<(\/?(a|code|i|strong)( [^>]*)?)>/gi;
 
 export const ALLOWED_FILE_TYPES = /(\.jpg|\.jpeg|\.png|\.txt)$/i;
 
+export const IMAGE_TYPES = /\.(jpg|jpeg|png)$/i;
+
 export const ALLOWED_MAX_FILE_SIZE = 100;
