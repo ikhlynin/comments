@@ -2,7 +2,8 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL:
-    process.env.REACT_APP_API_URL || "http://comments.railway.internal:5000",
+    process.env.REACT_APP_API_URL ||
+    "http://backend-production-7295.up.railway.app:5000",
   withCredentials: true,
 });
 
