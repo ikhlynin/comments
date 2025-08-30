@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  CommentFormData,
-  CommentFormProps,
-} from "../types/types";
+import { CommentFormData, CommentFormProps } from "../types/types";
 import validateFile from "../utils/validateFile";
 import prepareCommentData from "../utils/prepereCommentData";
 import { commentService } from "../services/commentServices";
@@ -36,7 +33,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
     try {
       const commentData = prepareCommentData(data, file, parentId, quote);
       await commentService.addComment(commentData);
-      //reset();
+      reset();
       setFile(null);
       setFileError("");
       onSubmit?.({ ...data, attachment: file });
