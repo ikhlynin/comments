@@ -1,7 +1,9 @@
 import React from "react";
 import { ALLOWED_FILE_TYPES, IMAGE_TYPES } from "../../types/types";
 
-const API_PATH = process.env.REACT_APP_API_URL || "http://localhost:5000";
+const API_PATH =
+  process.env.REACT_APP_API_URL ||
+  "https://backend-production-7295.up.railway.app";
 
 const CommentAttachment: React.FC<{ path: string }> = ({ path }) => {
   const fullPath = `${API_PATH}${path}`;
