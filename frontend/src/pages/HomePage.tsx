@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
       page,
       pageSize: PAGE_SIZE,
     });
-    setComments(data.comments);
+    setComments(data.comments || []);
     setTotal(data.total);
   };
 
@@ -65,7 +65,7 @@ const HomePage: React.FC = () => {
       </div>
       <SortingControls sortBy={sortBy} order={order} onSort={handleSort} />
       <div className="comments-list">
-        {comments.map((c) => (
+        {(comments || []).map((c) => (
           <Comment key={c.id} c={c} onReply={handleReply} />
         ))}
       </div>
