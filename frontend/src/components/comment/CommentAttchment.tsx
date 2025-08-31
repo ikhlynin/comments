@@ -1,12 +1,8 @@
 import React from "react";
-import { ALLOWED_FILE_TYPES, IMAGE_TYPES } from "../../types/types";
-
-const API_PATH =
-  process.env.REACT_APP_API_URL ||
-  "https://backend-production-7295.up.railway.app";
+import { IMAGE_TYPES } from "../../types/types";
 
 const CommentAttachment: React.FC<{ path: string }> = ({ path }) => {
-  const fullPath = `${API_PATH}${path}`;
+  const fullPath = `${process.env.REACT_APP_API_URL}${path}`;
   const isImage = IMAGE_TYPES.test(path);
   return isImage ? (
     <img src={fullPath} alt="attachment" className="comment__attachment__img" />

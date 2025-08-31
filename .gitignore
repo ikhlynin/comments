@@ -15,9 +15,6 @@ dist/
 build/
 **/build/
 
-.env
-.env.production
-
 # ========================
 # Logs
 # ========================
@@ -77,8 +74,3 @@ backend/uploads/
 # ========================
 frontend/build/
 frontend/dist/
-
-# ========================
-# docker-compose
-# ========================
-docker-compose.yml
