@@ -52,6 +52,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
       setCaptchaToken(null);
     } catch {
       alert("Error submitting comment");
+      setCaptchaToken(null);
     }
   };
 
