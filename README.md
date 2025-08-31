@@ -6,19 +6,19 @@ A test comment system with **threaded replies**, **file uploads**, and **Google 
 
 ## Features
 
-- Add and reply to comments (threaded discussions)  
-- Upload files (images and text)  
-- Google reCAPTCHA protection  
-- Paginated comments  
+- Add and reply to comments (threaded discussions)
+- Upload files (images and text)
+- Google reCAPTCHA protection
+- Paginated comments
 
 ---
 
 ## Tech Stack
 
-- **Frontend:** React, TypeScript, react-hook-form, Axios, react-google-recaptcha  
-- **Backend:** NestJS, Prisma, Multer  
-- **Database:** PostgreSQL  
-- **Containerization:** Docker and Docker Compose  
+- **Frontend:** React, TypeScript, react-hook-form, Axios, react-google-recaptcha
+- **Backend:** NestJS, Prisma, Multer
+- **Database:** PostgreSQL
+- **Containerization:** Docker and Docker Compose
 
 ---
 
@@ -88,9 +88,9 @@ npm start
 ## Folder Structure
 
 ```
-backend/       # NestJS backend with Prisma and Multer
-frontend/      # React frontend with forms and CAPTCHA
-docker/        # Dockerfiles and docker-compose configuration
+backend/
+frontend/
+docker/
 ```
 
 ---
