@@ -4,14 +4,15 @@ import sanitizeHtml from "sanitize-html";
 const prepareCommentData = (
   data: CommentFormData,
   file: File | null,
-  captchaToken: string | null,
   parentId?: string,
-  quote?: string
+  quote?: string,
+  captchaText?: string,
+  sessionId?: string
 ) => {
   const sanitizedText = sanitizeHtml(data.text, {
     allowedTags: ["a", "code", "i", "strong"],
     allowedAttributes: {
-      a: ["href", "title"],
+      a: ["href"],
     },
     allowedSchemes: ["http", "https", "mailto"],
     enforceHtmlBoundary: true,
@@ -25,14 +26,18 @@ const prepareCommentData = (
     },
   });
 
-  return {
-    ...data,
-    text: sanitizedText.trim(),
-    attachment: file,
-    parentId,
-    quote,
-    captchaToken,
-  };
+  const formData = new FormData();
+  formData.append("userName", data.userName);
+  formData.append("email", data.email);
+  formData.append("homePage", data.homePage || "");
+  formData.append("text", sanitizedText.trim());
+  if (file) formData.append("attachment", file);
+  if (parentId) formData.append("parentId", parentId);
+  if (quote) formData.append("quote", quote);
+  if (captchaText) formData.append("captchaText", captchaText);
+  if (sessionId) formData.append("sessionId", sessionId);
+
+  return formData;
 };
 
 export default prepareCommentData;

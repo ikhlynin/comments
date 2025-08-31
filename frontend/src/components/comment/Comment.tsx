@@ -46,7 +46,7 @@ const Comment: React.FC<CommentProps> = ({ c, onReply }) => {
         )}
       </div>
       {c.replies?.map((r) => (
-        <Comment c={r} onReply={onReply} />
+        <Comment key={r.id} c={r} onReply={onReply} />
       ))}
     </div>
   );

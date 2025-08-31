@@ -4,7 +4,7 @@ import { CommentFormData, CommentFormProps } from "../types/types";
 import validateFile from "../utils/validateFile";
 import prepareCommentData from "../utils/prepereCommentData";
 import { commentService } from "../services/commentServices";
-import ReCAPTCHA from "react-google-recaptcha";
+import Captcha from "./Captcha";
 import "../styles/CommentForm.scss";
 
 const CommentForm: React.FC<CommentFormProps> = ({
@@ -19,19 +19,20 @@ const CommentForm: React.FC<CommentFormProps> = ({
     setValue,
     formState: { errors },
   } = useForm<CommentFormData>();
-  const [captchaToken, setCaptchaToken] = useState<string | null>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState("");
+  const [captchaText, setCaptchaText] = useState("");
+  const [sessionId, setSessionId] = useState("");
 
   useEffect(() => {
     if (quote) setValue("text", `| ${quote}\n`);
   }, [quote, setValue]);
 
-  const publicKey =
-    process.env.REACT_APP_RECAPTCHA_SITE_KEY ||
-    "6LciF7krAAAAAAJUitF1eSHF3wgd9vru8yfTHhoM";
-
   const submitHandler = async (data: CommentFormData) => {
+    if (!captchaText || !sessionId) {
+      return alert("Please complete the CAPTCHA");
+    }
+
     if (file) {
       const fileErrorMsg = validateFile(file);
       if (fileErrorMsg) return setFileError(fileErrorMsg);
@@ -40,19 +41,18 @@ const CommentForm: React.FC<CommentFormProps> = ({
       const commentData = prepareCommentData(
         data,
         file,
-        captchaToken,
         parentId,
-        quote
+        quote,
+        captchaText,
+        sessionId
       );
       await commentService.addComment(commentData);
-      reset();
+      // reset();
       setFile(null);
       setFileError("");
       onSubmit?.({ ...data, attachment: file });
-      setCaptchaToken(null);
     } catch {
       alert("Error submitting comment");
-      setCaptchaToken(null);
     }
   };
 
@@ -70,10 +70,13 @@ const CommentForm: React.FC<CommentFormProps> = ({
         onChange={(e) => setFile(e.target.files?.[0] ?? null)}
       />
       {fileError && <span className="comment-form_error">{fileError}</span>}
-      <ReCAPTCHA
-        sitekey={publicKey}
-        onChange={(token) => setCaptchaToken(token)}
+      <Captcha
+        onChange={(text, id) => {
+          setCaptchaText(text);
+          setSessionId(id);
+        }}
       />
+
       <button type="submit" className="comment-form_submit">
         Send
       </button>

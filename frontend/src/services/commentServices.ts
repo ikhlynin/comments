@@ -1,11 +1,11 @@
-import axios from "../api/axios";
+import api from "../api/axios";
 import { CommentData, CommentFormData, CommentsOpts } from "../types/types";
 
 export const commentService = {
   async getComments(
     opts?: CommentsOpts
   ): Promise<{ comments: CommentData[]; total: number }> {
-    const res = await axios.get<{ comments: CommentData[]; total: number }>(
+    const res = await api.get<{ comments: CommentData[]; total: number }>(
       "/comments",
       {
         params: {
@@ -19,8 +19,8 @@ export const commentService = {
     return res.data;
   },
 
-  async addComment(data: CommentFormData & { attachment?: File | null }) {
-    await axios.post("/comments", data, {
+  async addComment(formData: FormData): Promise<void> {
+    await api.post("/comments", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
   },

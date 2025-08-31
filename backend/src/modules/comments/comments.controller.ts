@@ -6,20 +6,22 @@ import {
   UploadedFile,
   UseInterceptors,
   Query,
-  UseGuards,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/comment.dto';
+import { CaptchaService } from '../captcha/captcha.service';
 import { diskStorage } from 'multer';
-import { CaptchaGuard } from '../guards/captcha.guard';
 import { extname } from 'path';
 
 @Controller('comments')
 export class CommentsController {
-  constructor(private commentsService: CommentsService) {}
+  constructor(
+    private commentsService: CommentsService,
+    private captchaService: CaptchaService,
+  ) {}
   @Post()
-  @UseGuards(CaptchaGuard)
   @UseInterceptors(
     FileInterceptor('attachment', {
       storage: diskStorage({
@@ -32,16 +34,31 @@ export class CommentsController {
         if (
           file.mimetype.startsWith('image/') ||
           file.mimetype === 'text/plain'
-        )
+        ) {
           cb(null, true);
-        else cb(null, false);
+        } else {
+          cb(null, false);
+        }
       },
     }),
   )
   async create(
-    @Body() body: CreateCommentDto,
-    @UploadedFile() file: Express.Multer.File,
+    @Body()
+    body: CreateCommentDto & { captchaText?: string; sessionId?: string },
+    @UploadedFile() file?: Express.Multer.File,
   ) {
+    if (!body.captchaText || !body.sessionId) {
+      throw new BadRequestException('CAPTCHA is required');
+    }
+
+    const isCaptchaValid = await this.captchaService.validate(
+      body.sessionId,
+      body.captchaText,
+    );
+
+    if (!isCaptchaValid) {
+      throw new BadRequestException('Invalid CAPTCHA');
+    }
     if (file) {
       body.attachments = [
         {

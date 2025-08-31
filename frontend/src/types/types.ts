@@ -67,9 +67,7 @@ export const SORT_FIELDS = [
   { label: "Date", value: "createdAt" },
 ];
 
-export const PAGE_SIZE = 25;
-
-export const ALLOWED_TAGS = /<(\/?(a|code|i|strong)( [^>]*)?)>/gi;
+export const PAGE_SIZE = 25;;
 
 export const ALLOWED_FILE_TYPES = /(\.jpg|\.jpeg|\.png|\.txt)$/i;
 

@@ -10,5 +10,6 @@ export class CreateCommentDto {
     mimetype: string;
     size: number;
   }[];
-  captchaToken: string;
+  captchaText: string;
+  sessionId: string;
 }

@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
       <SortingControls sortBy={sortBy} order={order} onSort={handleSort} />
       <div className="comments-list">
         {comments.map((c) => (
-          <Comment c={c} onReply={handleReply} />
+          <Comment key={c.id} c={c} onReply={handleReply} />
         ))}
       </div>
       <Pagination page={page} totalPages={totalPages} setPage={setPage} />
