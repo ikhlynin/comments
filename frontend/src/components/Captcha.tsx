@@ -27,7 +27,7 @@ const Captcha = ({ onChange }: CaptchaFieldProps) => {
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         {svg && <div dangerouslySetInnerHTML={{ __html: svg }} />}
         <button type="button" onClick={loadCaptcha}>
-          Обновить
+          Refresh
         </button>
       </div>
       <input
