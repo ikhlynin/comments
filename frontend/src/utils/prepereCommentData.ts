@@ -4,6 +4,7 @@ import sanitizeHtml from "sanitize-html";
 const prepareCommentData = (
   data: CommentFormData,
   file: File | null,
+  captchaToken: string | null,
   parentId?: string,
   quote?: string
 ) => {
@@ -30,6 +31,7 @@ const prepareCommentData = (
     attachment: file,
     parentId,
     quote,
+    captchaToken,
   };
 };
 

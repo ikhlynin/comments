@@ -10,4 +10,5 @@ export class CreateCommentDto {
     mimetype: string;
     size: number;
   }[];
+  captchaToken: string;
 }

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { CommentFormData, CommentFormProps } from "../types/types";
 import validateFile from "../utils/validateFile";
 import prepareCommentData from "../utils/prepereCommentData";
 import { commentService } from "../services/commentServices";
+import ReCAPTCHA from "react-google-recaptcha";
 import "../styles/CommentForm.scss";
 
 const CommentForm: React.FC<CommentFormProps> = ({
@@ -18,6 +19,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
     setValue,
     formState: { errors },
   } = useForm<CommentFormData>();
+  const [captchaToken, setCaptchaToken] = useState<string | null>("");
   const [file, setFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState("");
 
@@ -25,18 +27,29 @@ const CommentForm: React.FC<CommentFormProps> = ({
     if (quote) setValue("text", `| ${quote}\n`);
   }, [quote, setValue]);
 
+  const publicKey =
+    process.env.REACT_APP_RECAPTCHA_SITE_KEY ||
+    "6LciF7krAAAAAAJUitF1eSHF3wgd9vru8yfTHhoM";
+
   const submitHandler = async (data: CommentFormData) => {
     if (file) {
       const fileErrorMsg = validateFile(file);
       if (fileErrorMsg) return setFileError(fileErrorMsg);
     }
     try {
-      const commentData = prepareCommentData(data, file, parentId, quote);
+      const commentData = prepareCommentData(
+        data,
+        file,
+        captchaToken,
+        parentId,
+        quote
+      );
       await commentService.addComment(commentData);
       reset();
       setFile(null);
       setFileError("");
       onSubmit?.({ ...data, attachment: file });
+      setCaptchaToken(null);
     } catch {
       alert("Error submitting comment");
     }
@@ -56,6 +69,10 @@ const CommentForm: React.FC<CommentFormProps> = ({
         onChange={(e) => setFile(e.target.files?.[0] ?? null)}
       />
       {fileError && <span className="comment-form_error">{fileError}</span>}
+      <ReCAPTCHA
+        sitekey={publicKey}
+        onChange={(token) => setCaptchaToken(token)}
+      />
       <button type="submit" className="comment-form_submit">
         Send
       </button>

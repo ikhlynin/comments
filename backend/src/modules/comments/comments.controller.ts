@@ -6,17 +6,20 @@ import {
   UploadedFile,
   UseInterceptors,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/comment.dto';
 import { diskStorage } from 'multer';
+import { CaptchaGuard } from '../guards/captcha.guard';
 import { extname } from 'path';
 
 @Controller('comments')
 export class CommentsController {
   constructor(private commentsService: CommentsService) {}
   @Post()
+  @UseGuards(CaptchaGuard)
   @UseInterceptors(
     FileInterceptor('attachment', {
       storage: diskStorage({
