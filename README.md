@@ -28,7 +28,6 @@ Live project: https://frontend-production-0da9.up.railway.app/
 
 Getting Started
 
-````git clone https://github.com/ikhlynin/comments.git
-```cd comments
-```docker-compose up --build
-````
+``git clone https://github.com/ikhlynin/comments.git`
+`cd comments`
+`docker-compose up --build`
