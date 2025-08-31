@@ -2,28 +2,33 @@ Comments
 
 A test comment system with threaded replies, file uploads, and Google reCAPTCHA, built with React, NestJS, and PostgreSQL.
 
-🚀 Features
+Features
 
-💬 Add and reply to comments (threads)
+Add and reply to comments (threaded discussions)
 
-📎 Upload files (images and text)
+Upload files (images and text)
 
-🔒 Google reCAPTCHA protection
+Google reCAPTCHA protection
 
-📄 Paginated comments for easier browsing
+Paginated comments
 
-🛠 Tech Stack
-Frontend	Backend	Database	Other
-React, TypeScript, react-hook-form, Axios, react-google-recaptcha	NestJS, Prisma, Multer	PostgreSQL	Docker & Docker Compose
-🌐 Demo
+Tech Stack
 
-Check out the live project:
-https://frontend-production-0da9.up.railway.app/
+Frontend: React, TypeScript, react-hook-form, Axios, react-google-recaptcha
 
-⚡ Getting Started
-git clone https://github.com/yourusername/comments.git
-cd comments
-docker-compose up --build
+Backend: NestJS, Prisma, Multer
 
-Frontend: http://localhost:3000
-Backend: http://localhost:5000
+Database: PostgreSQL
+
+Containerization: Docker and Docker Compose
+
+Demo
+
+Live project: https://frontend-production-0da9.up.railway.app/
+
+Getting Started
+
+````git clone https://github.com/ikhlynin/comments.git
+```cd comments
+```docker-compose up --build
+````
