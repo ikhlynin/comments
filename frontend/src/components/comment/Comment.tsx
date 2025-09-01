@@ -9,6 +9,12 @@ const Comment: React.FC<CommentProps> = ({ c, onReply }) => {
   const commentRef = useRef<HTMLDivElement>(null);
   const [selectedText, setSelectedText] = useSelectedText(commentRef);
 
+  useEffect(() => {
+    if (commentRef.current) {
+      commentRef.current.innerHTML = c.text;
+    }
+  }, []);
+
   return (
     <div className="comment" ref={commentRef}>
       <div className="comment__header">
