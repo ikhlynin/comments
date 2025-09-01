@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
+import parse from "html-react-parser";
 import CommentAttachment from "./CommentAttchment";
 import CommentQuote from "./CommentQuote";
 import { useSelectedText } from "../../utils/useSelectedText";
@@ -6,17 +7,11 @@ import { CommentProps } from "../../types/types";
 import "../../styles/Comment.scss";
 
 const Comment: React.FC<CommentProps> = ({ c, onReply }) => {
-  const commentRef = useRef<HTMLDivElement>(null);
-  const [selectedText, setSelectedText] = useSelectedText(commentRef);
-
-  useEffect(() => {
-    if (commentRef.current) {
-      commentRef.current.innerHTML = c.text;
-    }
-  }, []);
+  const textRef = useRef<HTMLDivElement>(null);
+  const [selectedText, setSelectedText] = useSelectedText(textRef);
 
   return (
-    <div className="comment" ref={commentRef}>
+    <div className="comment">
       <div className="comment__header">
         <div className="comment__user">
           <a
@@ -34,11 +29,9 @@ const Comment: React.FC<CommentProps> = ({ c, onReply }) => {
         </div>
       </div>
       {c.quote && <CommentQuote quote={c.quote} />}
-      <div
-        className="comment__text"
-        ref={commentRef}
-        dangerouslySetInnerHTML={{ __html: c.text }}
-      />
+      <div className="comment__text" ref={textRef}>
+        {parse(c.text)}
+      </div>
       {c.attachmentPath && <CommentAttachment path={c.attachmentPath} />}
       <div className="comment__actions">
         {selectedText && (
