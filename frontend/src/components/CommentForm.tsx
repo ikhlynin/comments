@@ -23,6 +23,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
   const [fileError, setFileError] = useState("");
   const [captchaText, setCaptchaText] = useState("");
   const [sessionId, setSessionId] = useState("");
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   useEffect(() => {
     if (quote) setValue("text", `| ${quote}\n`);
@@ -51,6 +52,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
       setFile(null);
       setFileError("");
       onSubmit?.({ ...data, attachment: file });
+      setCaptchaKey((prev) => prev + 1);
     } catch {
       alert("Error submitting comment");
     }
