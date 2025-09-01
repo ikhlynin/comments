@@ -47,7 +47,7 @@ const CommentForm: React.FC<CommentFormProps> = ({
         sessionId
       );
       await commentService.addComment(commentData);
-      // reset();
+      reset();
       setFile(null);
       setFileError("");
       onSubmit?.({ ...data, attachment: file });

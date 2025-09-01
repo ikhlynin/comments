@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import CommentAttachment from "./CommentAttchment";
 import CommentQuote from "./CommentQuote";
 import { useSelectedText } from "../../utils/useSelectedText";
@@ -8,7 +8,11 @@ import "../../styles/Comment.scss";
 const Comment: React.FC<CommentProps> = ({ c, onReply }) => {
   const commentRef = useRef<HTMLDivElement>(null);
   const [selectedText, setSelectedText] = useSelectedText(commentRef);
-
+  useEffect(() => {
+    if (commentRef.current) {
+      commentRef.current.innerHTML = c.text;
+    }
+  }, [c.text]);
   return (
     <div className="comment" ref={commentRef}>
       <div className="comment__header">
@@ -29,7 +33,8 @@ const Comment: React.FC<CommentProps> = ({ c, onReply }) => {
       </div>
       {c.quote && <CommentQuote quote={c.quote} />}
       <div
-        className="comment__text prose prose-sm max-w-none"
+        className="comment__text"
+        ref={commentRef}
         dangerouslySetInnerHTML={{ __html: c.text }}
       />
       {c.attachmentPath && <CommentAttachment path={c.attachmentPath} />}
