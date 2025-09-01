@@ -35,7 +35,6 @@ DATABASE_USER=postgres
 DATABASE_PASS=postgres
 DATABASE_NAME=comments_db
 DATABASE_URL=postgresql://postgres:postgres@postgres:5432/comments_db?schema=public
-CAPTCHA_PRIVATE_KEY=6LciF7krAAAAABVzU3bSqHMUPzsv1zn5MpwEQQ47
 BACKEND_PORT=5000
 FRONTEND_URL=http://localhost:3000
 CAPTCHA_TTL=300
